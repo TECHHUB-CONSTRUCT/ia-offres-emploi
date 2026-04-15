@@ -1,0 +1,38 @@
+name: Recherche quotidienne d'emploi
+
+on:
+  schedule:
+    - cron: '0 8 * * *'  # Tous les jours à 8h UTC
+  workflow_dispatch:      # Déclenchement manuel possible
+
+jobs:
+  search:
+    runs-on: ubuntu-latest
+    
+    steps:
+      - name: Checkout du code
+        uses: actions/checkout@v3
+      
+      - name: Setup PHP
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: '8.2'
+          
+      - name: Installer pdftotext (optionnel)
+        run: sudo apt-get update && sudo apt-get install -y poppler-utils
+        
+      - name: Créer les dossiers
+        run: |
+          mkdir -p data
+          mkdir -p cv
+          
+      - name: Exécuter le script
+        run: php cron_jobs.php
+        
+      - name: Commit et push des résultats
+        run: |
+          git config --local user.email "action@github.com"
+          git config --local user.name "GitHub Action"
+          git add data/*.json index.php
+          git commit -m "Mise à jour automatique $(date +'%Y-%m-%d')" || echo "No changes"
+          git push
