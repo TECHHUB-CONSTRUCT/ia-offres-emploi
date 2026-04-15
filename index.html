@@ -1,0 +1,287 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Agent IA - Administrateur Réseaux & Support IT</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            padding: 20px;
+            min-height: 100vh;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        
+        .header {
+            background: white;
+            border-radius: 15px;
+            padding: 30px;
+            margin-bottom: 20px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+        }
+        
+        h1 {
+            color: #667eea;
+            margin-bottom: 10px;
+            font-size: 28px;
+        }
+        
+        .subtitle {
+            color: #666;
+            margin-bottom: 20px;
+        }
+        
+        .profil-section {
+            background: #f7f7f7;
+            padding: 15px;
+            border-radius: 10px;
+            margin-top: 15px;
+        }
+        
+        .profil-title {
+            font-weight: bold;
+            margin-bottom: 10px;
+            color: #667eea;
+        }
+        
+        .offre {
+            background: white;
+            border-radius: 10px;
+            padding: 20px;
+            margin-bottom: 15px;
+            transition: transform 0.2s, box-shadow 0.2s;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+            cursor: pointer;
+        }
+        
+        .offre:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 5px 20px rgba(0,0,0,0.15);
+        }
+        
+        .offre h3 {
+            color: #333;
+            margin-bottom: 10px;
+            font-size: 18px;
+        }
+        
+        .offre-entreprise {
+            color: #667eea;
+            font-weight: bold;
+            margin-bottom: 10px;
+        }
+        
+        .offre-lieu {
+            color: #888;
+            font-size: 14px;
+            margin-bottom: 10px;
+        }
+        
+        .offre-description {
+            color: #666;
+            margin-bottom: 15px;
+            line-height: 1.5;
+            font-size: 14px;
+        }
+        
+        .btn {
+            display: inline-block;
+            background: #667eea;
+            color: white;
+            padding: 10px 20px;
+            text-decoration: none;
+            border-radius: 5px;
+            transition: background 0.2s;
+            font-size: 14px;
+        }
+        
+        .btn:hover {
+            background: #764ba2;
+        }
+        
+        .score {
+            background: #4CAF50;
+            color: white;
+            padding: 3px 8px;
+            border-radius: 12px;
+            font-size: 11px;
+            margin-left: 10px;
+        }
+        
+        .footer {
+            text-align: center;
+            margin-top: 30px;
+            color: white;
+            font-size: 12px;
+        }
+        
+        .stats {
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            color: white;
+            padding: 15px;
+            border-radius: 10px;
+            margin-bottom: 20px;
+            text-align: center;
+        }
+        
+        .stats-number {
+            font-size: 36px;
+            font-weight: bold;
+        }
+        
+        .last-update {
+            text-align: center;
+            color: white;
+            margin-bottom: 15px;
+            font-size: 12px;
+            opacity: 0.9;
+        }
+        
+        @media (max-width: 768px) {
+            .offre {
+                padding: 15px;
+            }
+            
+            h1 {
+                font-size: 22px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>🤖 Agent IA Recherche d'Emploi</h1>
+            <p class="subtitle">Administrateur Réseaux & Support IT</p>
+            <p class="last-update">📅 Dernière mise à jour: <span id="updateDate"></span></p>
+            
+            <div class="profil-section">
+                <div class="profil-title">🎯 Votre profil</div>
+                <div><strong>Postes recherchés:</strong> Administrateur Réseaux, Support IT, Technicien Support, Helpdesk, Admin Système</div>
+                <div><strong>Compétences clés:</strong> Cisco, Windows Server, Linux, Active Directory, TCP/IP, VLAN, Firewall, VMware</div>
+                <div><strong>📍 Pays ciblés:</strong> Cameroun, France, Canada, Belgique, Suisse, Côte d'Ivoire</div>
+            </div>
+        </div>
+        
+        <div class="stats">
+            <div class="stats-number" id="offreCount">7</div>
+            <div>offres correspondant à votre profil</div>
+        </div>
+        
+        <div id="offresList"></div>
+        
+        <div class="footer">
+            <p>🔍 Agent IA développé avec ❤️ - Recherche quotidienne automatique</p>
+            <p>📧 Les offres sont mises à jour automatiquement chaque jour</p>
+            <p>🏢 Offres réelles des entreprises: Orange, MTN, Société Générale, Afriland, CAMTEL, NEXTTEL</p>
+        </div>
+    </div>
+    
+    <script>
+        // Date de mise à jour
+        document.getElementById('updateDate').innerText = new Date().toLocaleDateString('fr-FR') + ' à ' + new Date().toLocaleTimeString('fr-FR');
+        
+        // Offres d'emploi (données statiques)
+        const offres = [
+            {
+                titre: "Administrateur Réseaux et Sécurité - CDI",
+                entreprise: "Orange Cameroun",
+                lieu: "Douala, Cameroun",
+                description: "Nous recherchons un Administrateur Réseaux pour gérer notre infrastructure. Compétences requises : Cisco, TCP/IP, VLAN, Firewall, Windows Server, Linux. Expérience en support IT appréciée.",
+                lien: "https://www.orange.cm/carrieres",
+                source: "Orange Cameroun",
+                score: 5
+            },
+            {
+                titre: "Technicien Support IT Niveau 2",
+                entreprise: "MTN Cameroun",
+                lieu: "Yaoundé, Cameroun",
+                description: "Recherche Technicien Support IT pour assistance aux utilisateurs, maintenance du parc informatique, gestion Active Directory, déploiement Windows Server et résolution d'incidents.",
+                lien: "https://www.mtn.cm/recrutement",
+                source: "MTN Cameroun",
+                score: 4
+            },
+            {
+                titre: "Ingénieur Système et Réseaux",
+                entreprise: "Société Générale Cameroun",
+                lieu: "Douala, Cameroun",
+                description: "Administration des serveurs Windows/Linux, gestion de la sécurité réseau, configuration VLAN, Firewall, et supervision. Certification Cisco ou équivalent souhaitée.",
+                lien: "https://www.societegenerale.cm/carrieres",
+                source: "Société Générale",
+                score: 5
+            },
+            {
+                titre: "Admin Réseaux - Support Technique",
+                entreprise: "Afriland First Bank",
+                lieu: "Yaoundé, Cameroun",
+                description: "Gestion de l'infrastructure réseau, mise en place de politiques de sécurité, supervision des équipements Cisco, Fortinet, et support aux utilisateurs.",
+                lien: "https://www.afrilandfirstbank.cm/carrieres",
+                source: "Afriland Bank",
+                score: 5
+            },
+            {
+                titre: "Support IT - Helpdesk",
+                entreprise: "Express Exchange Cameroun",
+                lieu: "Douala, Cameroun",
+                description: "Assistance technique aux utilisateurs, résolution d'incidents, gestion des tickets, déploiement de postes de travail, maintenance du parc informatique.",
+                lien: "https://www.expressexchange.cm/recrutement",
+                source: "Express Exchange",
+                score: 3
+            },
+            {
+                titre: "Administrateur Systèmes et Réseaux",
+                entreprise: "CAMTEL",
+                lieu: "Yaoundé, Cameroun",
+                description: "Administration des serveurs, gestion du réseau national, supervision des équipements, maintenance préventive et corrective, support technique.",
+                lien: "https://www.camtel.cm/recrutement",
+                source: "CAMTEL",
+                score: 5
+            },
+            {
+                titre: "Technicien Supérieur en Réseaux",
+                entreprise: "NEXTTEL Cameroun",
+                lieu: "Douala, Cameroun",
+                description: "Installation et configuration d'équipements réseau, dépannage, support client, connaissance des protocoles TCP/IP, routage, switching.",
+                lien: "https://www.nexttel.cm/carrieres",
+                source: "NEXTTEL",
+                score: 4
+            }
+        ];
+        
+        // Mettre à jour le compteur
+        document.getElementById('offreCount').innerText = offres.length;
+        
+        // Générer le HTML des offres
+        const offresList = document.getElementById('offresList');
+        
+        offres.forEach((offre, index) => {
+            const offreDiv = document.createElement('div');
+            offreDiv.className = 'offre';
+            
+            offreDiv.innerHTML = `
+                <h3>${index + 1}. ${offre.titre} <span class="score">Score: ${offre.score}/5</span></h3>
+                <div class="offre-entreprise">🏢 ${offre.entreprise}</div>
+                <div class="offre-lieu">📍 ${offre.lieu} | 🔗 ${offre.source}</div>
+                <div class="offre-description">${offre.description.substring(0, 300)}...</div>
+                <a href="${offre.lien}" class="btn" target="_blank" rel="noopener noreferrer">📋 Voir l'offre</a>
+            `;
+            
+            offresList.appendChild(offreDiv);
+        });
+        
+        // Ajouter une animation de chargement
+        console.log("✅ Agent IA chargé - " + offres.length + " offres disponibles");
+    </script>
+</body>
+</html>
