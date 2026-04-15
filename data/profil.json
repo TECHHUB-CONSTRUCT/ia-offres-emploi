@@ -6,12 +6,17 @@
         "active directory",
         "cisco",
         "vmware",
-        "tcpip"
+        "tcpip",
+        "vlan",
+        "firewall",
+        "dns",
+        "dhcp"
     ],
     "postes": [
         "administrateur reseaux",
         "support IT",
         "technicien support",
-        "admin systeme"
+        "admin systeme",
+        "helpdesk"
     ]
 }

@@ -1,5 +1,5 @@
 <?php
-// cron_jobs.php - Script complet pour GitHub Actions
+// cron_jobs.php - Script principal exécuté quotidiennement
 
 echo "========================================\n";
 echo "🤖 AGENT IA RECHERCHE D'EMPLOI\n";
@@ -16,4 +16,5 @@ echo "\n3️⃣ Envoi de l'email...\n";
 include 'send_email.php';
 
 echo "\n✅ Traitement terminé !\n";
+echo "========================================\n";
 ?>

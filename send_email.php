@@ -1,38 +1,37 @@
 <?php
-// send_email.php - Envoi d'email via EmailJS
+// send_email.php - Version simplifiée (sans EmailJS pour l'instant)
 
 require_once 'config.php';
 
-function envoyerEmailEmailJS($config, $nbOffres, $urlWeb) {
-    $emailjs = $config['emailjs'];
+function envoyerEmailSimple($config, $nbOffres, $urlWeb) {
+    $to = $config['destinataire_email'];
+    $subject = "🤖 IA Emploi - {$nbOffres} offres trouvées le " . date('d/m/Y');
     
-    $data = [
-        'service_id' => $emailjs['service_id'],
-        'template_id' => $emailjs['template_id'],
-        'user_id' => $emailjs['user_id'],
-        'template_params' => [
-            'to_email' => $config['destinataire_email'],
-            'subject' => "🤖 IA Emploi - {$nbOffres} offres trouvées",
-            'message' => "Bonjour,\n\nL'agent IA a trouvé {$nbOffres} offres correspondant à votre profil.\n\nConsultez-les ici: {$urlWeb}\n\nDate: " . date('d/m/Y') . "\n\nBonne recherche !",
-            'reply_to' => $config['destinataire_email']
-        ]
-    ];
+    $message = "Bonjour,\n\n";
+    $message .= "L'agent IA a trouvé {$nbOffres} offre(s) correspondant à votre profil.\n\n";
+    $message .= "📊 Détails:\n";
+    $message .= "- Date: " . date('d/m/Y à H:i') . "\n";
+    $message .= "- Offres pertinentes: {$nbOffres}\n\n";
+    $message .= "🔗 Consultez toutes les offres ici:\n";
+    $message .= "{$urlWeb}\n\n";
+    $message .= "📌 Conseils:\n";
+    $message .= "- Postulez rapidement\n";
+    $message .= "- Personnalisez chaque candidature\n";
+    $message .= "- Mettez à jour votre CV régulièrement\n\n";
+    $message .= "Bonne recherche !\n\n";
+    $message .= "---\n";
+    $message .= "Cet email est généré automatiquement par votre agent IA.\n";
     
-    $ch = curl_init('https://api.emailjs.com/api/v1.0/email/send');
-    curl_setopt($ch, CURLOPT_POST, true);
-    curl_setopt($ch, CURLOPT_POSTFIELDS, json_encode($data));
-    curl_setopt($ch, CURLOPT_HTTPHEADER, ['Content-Type: application/json']);
-    curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+    $headers = "From: Agent IA Emploi <agent@ia-emploi.com>\r\n";
+    $headers .= "Reply-To: {$to}\r\n";
     
-    $response = curl_exec($ch);
-    $httpCode = curl_getinfo($ch, CURLINFO_HTTP_CODE);
-    curl_close($ch);
-    
-    if ($httpCode == 200) {
+    if (mail($to, $subject, $message, $headers)) {
         echo "✅ Email envoyé avec succès\n";
+        echo "   (Vérifiez vos spams si vous ne le voyez pas)\n";
         return true;
     } else {
-        echo "❌ Erreur EmailJS: {$httpCode}\n";
+        echo "⚠️ Impossible d'envoyer l'email automatiquement\n";
+        echo "   Ce n'est pas grave, l'interface web est disponible !\n";
         return false;
     }
 }
@@ -40,13 +39,34 @@ function envoyerEmailEmailJS($config, $nbOffres, $urlWeb) {
 // Compter les offres
 $offresFile = $config['dossier_data'] . 'offres.json';
 $nbOffres = 0;
+$offres = [];
+
 if (file_exists($offresFile)) {
     $offres = json_decode(file_get_contents($offresFile), true);
     $nbOffres = count($offres);
+    echo "📊 {$nbOffres} offres chargées depuis le fichier\n";
+} else {
+    echo "⚠️ Aucune offre trouvée\n";
 }
 
-// URL GitHub Pages (à modifier)
-$urlWeb = "https://" . getenv('GITHUB_REPOSITORY_OWNER') . ".github.io/ia-offres-emploi-php/";
+// URL GitHub Pages
+$githubUser = 'TECHHUB-CONSTRUCT';  // ← À MODIFIER AVEC VOTRE PSEUDO GITHUB
+$urlWeb = "https://{$githubUser}.github.io/ia-offres-emploi/";
 
-envoyerEmailEmailJS($config, $nbOffres, $urlWeb);
+echo "📧 Tentative d'envoi d'email...\n";
+envoyerEmailSimple($config, $nbOffres, $urlWeb);
+
+// Afficher les offres dans la console
+echo "\n📋 LISTE DES OFFRES DISPONIBLES:\n";
+echo "-----------------------------------\n";
+if ($nbOffres > 0) {
+    foreach ($offres as $i => $offre) {
+        echo ($i+1) . ". " . $offre['titre'] . "\n";
+        echo "   📍 " . $offre['lieu'] . "\n";
+        echo "   🏢 " . $offre['entreprise'] . "\n";
+        echo "   🔗 " . $offre['lien'] . "\n\n";
+    }
+} else {
+    echo "Aucune offre disponible pour le moment.\n";
+}
 ?>

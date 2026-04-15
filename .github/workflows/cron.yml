@@ -2,7 +2,7 @@ name: Recherche quotidienne d'emploi
 
 on:
   schedule:
-    - cron: '0 8 * * *'  # Tous les jours à 8h UTC
+    - cron: '0 8 * * *'  # Tous les jours à 8h UTC (9h Cameroun)
   workflow_dispatch:      # Déclenchement manuel possible
 
 jobs:
@@ -18,9 +18,6 @@ jobs:
         with:
           php-version: '8.2'
           
-      - name: Installer pdftotext (optionnel)
-        run: sudo apt-get update && sudo apt-get install -y poppler-utils
-        
       - name: Créer les dossiers
         run: |
           mkdir -p data
@@ -34,5 +31,5 @@ jobs:
           git config --local user.email "action@github.com"
           git config --local user.name "GitHub Action"
           git add data/*.json index.php
-          git commit -m "Mise à jour automatique $(date +'%Y-%m-%d')" || echo "No changes"
+          git commit -m "Mise à jour automatique $(date +'%Y-%m-%d')" || echo "No changes to commit"
           git push

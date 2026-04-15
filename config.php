@@ -1,25 +1,25 @@
 <?php
-// config.php - Configuration centrale
+// config.php - Configuration centrale (À MODIFIER AVEC VOS IDENTIFIANTS)
 
 $config = [
-    // Votre profil
+    // Votre profil professionnel
     'profil' => [
-        'postes' => ['administrateur reseaux', 'support IT', 'technicien support', 'admin systeme'],
-        'competences' => ['reseaux', 'windows server', 'linux', 'active directory', 'cisco', 'vmware', 'tcpip'],
-        'pays' => ['Cameroun', 'France', 'Canada', 'Belgique', 'Suisse', 'Côte d\'Ivoire']
+        'postes' => ['administrateur reseaux', 'support IT', 'technicien support', 'admin systeme', 'helpdesk'],
+        'competences' => ['reseaux', 'windows server', 'linux', 'active directory', 'cisco', 'vmware', 'tcpip', 'vlan', 'firewall', 'dns', 'dhcp'],
+        'pays' => ['Cameroun', 'France', 'Canada', 'Belgique', 'Suisse', "Côte d'Ivoire"]
     ],
     
-    // EmailJS (remplacez par vos identifiants)
+    // EmailJS - REMPLACEZ PAR VOS IDENTIFIANTS (ou laissez vide pour désactiver l'email)
     'emailjs' => [
-        'service_id' => 'service_v09mrk4',
-        'template_id' => 'service_v09mrk4',
-        'user_id' => 'kLRmRgSRxvhv-I4fW'
+        'service_id' => 'service_v09mrk4',     // ← À MODIFIER
+        'template_id' => 'template_sxmm6ag',   // ← À MODIFIER
+        'user_id' => 'kLRmRgSRxvhv-I4fW'            // ← À MODIFIER
     ],
     
     // Votre email pour recevoir les alertes
-    'destinataire_email' => 'votre_email@exemple.com',
+    'destinataire_email' => 'nofemb@gmail.com',  // ← À MODIFIER
     
-    // Dossiers
+    // Dossiers (ne pas modifier)
     'dossier_cv' => __DIR__ . '/cv/',
     'dossier_data' => __DIR__ . '/data/'
 ];
